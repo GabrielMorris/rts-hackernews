@@ -1,14 +1,23 @@
 // React
 import React from 'react';
 
+// Actions
+import { fetchSearchResults } from '../../actions/search-actions';
+
 // Redux Form
 import { reduxForm, Field } from 'redux-form';
 
 export class SearchForm extends React.Component {
+  onSubmit(values) {
+    this.props.dispatch(fetchSearchResults(values.search));
+  }
+
   render() {
     return (
       <section>
-        <form>
+        <form
+          onSubmit={this.props.handleSubmit(values => this.onSubmit(values))}
+        >
           <label htmlFor="search">Search: </label>
 
           <Field
@@ -18,14 +27,7 @@ export class SearchForm extends React.Component {
             component="input"
           />
 
-          <button
-            type="submit"
-            onClick={event => {
-              event.preventDefault();
-            }}
-          >
-            Search
-          </button>
+          <button type="submit">Search</button>
         </form>
       </section>
     );
