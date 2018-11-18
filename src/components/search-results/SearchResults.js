@@ -32,6 +32,7 @@ export class SearchResults extends React.Component {
       );
     }
 
+    // Otherwise generate and return the search results
     return (
       <div>
         <ul>{this.generateSearchResults()}</ul>
