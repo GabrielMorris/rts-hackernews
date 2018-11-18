@@ -1,10 +1,20 @@
 // React
 import React from 'react';
 
+// Styles
+import './SearchResultsCard.css';
+
 export default function SearchResultsCard(props) {
   return (
     <li>
-      <a href={props.result.url}>{props.result.title}</a>
+      <p>
+        <a href={props.result.url}>{props.result.title}</a>
+      </p>
+
+      <p>
+        <strong>Author: </strong>
+        {props.result.author}
+      </p>
     </li>
   );
 }

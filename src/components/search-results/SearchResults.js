@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 
 // Components
 import SearchResultsCard from './SearchResultsCard';
+import { BeatLoader } from 'react-spinners';
+
+// Styles
+import './SearchResults.css';
 
 export class SearchResults extends React.Component {
   generateSearchResults() {
@@ -19,6 +23,15 @@ export class SearchResults extends React.Component {
   }
 
   render() {
+    // Display a spinner if we're loading results
+    if (this.props.loading) {
+      return (
+        <div className="sweet-loading">
+          <BeatLoader loading={this.props.loading} />
+        </div>
+      );
+    }
+
     return (
       <div>
         <ul>{this.generateSearchResults()}</ul>

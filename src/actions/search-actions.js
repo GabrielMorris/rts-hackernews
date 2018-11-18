@@ -7,25 +7,18 @@ export const fetchSearchResults = searchTerm => dispatch => {
   dispatch(searchHNRequest());
 
   if (searchTerm) {
+    // Replace spaces with plus signs
     const plussedSearchTerm = searchTerm
       ? searchTerm.toLowerCase().replace(/ /g, '+', -1)
       : '';
 
     return fetch(`${SEARCH_URI}${plussedSearchTerm}`)
-      .then(response => {
-        console.log(response);
-        return response.json();
-      })
-      .then(response => {
-        // Handle errors in here with a promise rejection
-        return response.hits;
-      })
-      .then(searchResultsArray => {
-        dispatch(searchHNSuccess(searchResultsArray));
-      })
-      .catch(error => {
-        dispatch(searchHNError(error));
-      });
+      .then(response => response.json())
+      .then(response => response.hits)
+      .then(searchResultsArray =>
+        dispatch(searchHNSuccess(searchResultsArray, searchTerm))
+      )
+      .catch(error => dispatch(searchHNError(error)));
   } else {
     dispatch(searchHNError('Error: No search term provided'));
   }
@@ -38,9 +31,10 @@ export const searchHNRequest = () => ({
 });
 
 export const SEARCH_HN_SUCCESS = 'SEARCH_HN_SUCCESS';
-export const searchHNSuccess = searchResults => ({
+export const searchHNSuccess = (searchResults, searchTerm) => ({
   type: SEARCH_HN_SUCCESS,
-  searchResults
+  searchResults,
+  searchTerm
 });
 
 export const SEARCH_HN_ERROR = 'SEARCH_HN_ERROR';
